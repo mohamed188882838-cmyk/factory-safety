@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { getDashboard, getAllFireLogs } from '../../services/api';
 import './OverviewDashboard.css';
 
 export default function OverviewDashboard() {
@@ -7,6 +8,11 @@ export default function OverviewDashboard() {
     name: 'Marcus Chen',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop'
   });
+
+  const [dashboardData, setDashboardData] = useState(null);
+  const [fireAlerts, setFireAlerts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -23,50 +29,94 @@ export default function OverviewDashboard() {
     }
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError('');
+      try {
+        const [dashboard, fires] = await Promise.allSettled([
+          getDashboard(),
+          getAllFireLogs()
+        ]);
+
+        if (dashboard.status === 'fulfilled') {
+          setDashboardData(dashboard.value);
+        }
+        if (fires.status === 'fulfilled') {
+          const fireData = fires.value?.data || fires.value || [];
+          setFireAlerts(Array.isArray(fireData) ? fireData.slice(0, 5) : []);
+        }
+      } catch (err) {
+        setError(err.message || 'Failed to load dashboard data');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const stats = dashboardData?.data || dashboardData || {};
+  const dailyAccidents = stats.daily_accidents ?? stats.accidents ?? '—';
+  const complianceRate = stats.compliance_rate ?? stats.compliance ?? '—';
+  const activeViolations = stats.active_violations ?? stats.violations ?? '—';
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+
   return (
     <div className="dashboard-overview-wrapper">
-      {/* Topbar */}
       <header className="topbar">
         <div>
           <h2>Safety Command Center</h2>
         </div>
 
         <div className="top-right">
-          <i className="fa-regular fa-bell"></i>
           <div className="date-box">
-            <h4>Monday, Oct 24</h4>
-            <p>Shift B: 08:00 - 16:00</p>
+            <h4>{dateStr}</h4>
           </div>
           <img src={user.avatar} alt={user.name} />
         </div>
       </header>
 
-      {/* Dashboard */}
       <section className="dashboard">
         <div className="title">
           <h1>Overview Dashboard</h1>
           <p>Real-time workplace safety metrics and AI detection summary.</p>
         </div>
 
+        {error && (
+          <div style={{
+            background: 'rgba(239, 68, 68, 0.1)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            color: '#ef4444',
+            padding: '12px 16px',
+            borderRadius: '12px',
+            marginBottom: '16px',
+            fontSize: '14px'
+          }}>
+            <i className="fa-solid fa-circle-exclamation"></i> {error}
+          </div>
+        )}
+
         {/* Stats */}
         <div className="stats-grid">
           <div className="card">
             <i className="fa-solid fa-triangle-exclamation red"></i>
-            <h2>02</h2>
+            {loading ? <h2 style={{ opacity: 0.4 }}>...</h2> : <h2>{dailyAccidents}</h2>}
             <h4>Daily Accidents</h4>
             <p>Total recorded safety incidents today</p>
           </div>
 
           <div className="card">
             <i className="fa-solid fa-users blue"></i>
-            <h2>94.8%</h2>
+            {loading ? <h2 style={{ opacity: 0.4 }}>...</h2> : <h2>{typeof complianceRate === 'number' ? complianceRate + '%' : complianceRate}</h2>}
             <h4>Compliance Rate</h4>
             <p>Overall percentage of safety protocol adherence</p>
           </div>
 
           <div className="card">
             <i className="fa-solid fa-clock orange"></i>
-            <h2>12</h2>
+            {loading ? <h2 style={{ opacity: 0.4 }}>...</h2> : <h2>{activeViolations}</h2>}
             <h4>Active Violations</h4>
             <p>Current unresolved safety detections</p>
           </div>
@@ -78,46 +128,38 @@ export default function OverviewDashboard() {
           <div className="alerts-box">
             <div className="section-header">
               <div>
-                <h2>Real-time Safety Alerts</h2>
+                <h2>Real-time Fire Alerts</h2>
                 <p>Live feed from AI surveillance cameras</p>
               </div>
-
-              <div className="buttons">
-                <button onClick={() => alert('Viewing history...')}>View History</button>
-                <button onClick={() => alert('Clearing all alerts...')}>Clear All</button>
-              </div>
             </div>
 
-            {/* Alert */}
-            <div className="alert-item">
-              <img
-                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=500&auto=format&fit=crop"
-                alt="Zone B"
-              />
-              <div className="alert-info">
-                <span className="critical">Critical</span>
-                <h3>Zone B - Chemicals</h3>
-                <p>Unauthorized personnel detected in high-risk zone.</p>
+            {loading ? (
+              <div style={{ textAlign: 'center', padding: '40px', color: '#888' }}>
+                <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '24px' }}></i>
+                <p style={{ marginTop: '10px' }}>Loading alerts...</p>
               </div>
-              <button className="handled-btn" onClick={() => alert('Alert marked as handled')}>
-                Mark Handled
-              </button>
-            </div>
-
-            <div className="alert-item">
-              <img
-                src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=500&auto=format&fit=crop"
-                alt="Line 4"
-              />
-              <div className="alert-info">
-                <span className="warning">Warning</span>
-                <h3>Production Line 4</h3>
-                <p>Supervisor detected without safety helmet.</p>
+            ) : fireAlerts.length > 0 ? (
+              fireAlerts.map((alert, idx) => (
+                <div className="alert-item" key={alert.id || idx}>
+                  <img
+                    src={alert.image ? (alert.image.startsWith('http') ? alert.image : `http://178.16.131.178/storage/${alert.image}`) : 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=500&auto=format&fit=crop'}
+                    alt={alert.type || 'Alert'}
+                  />
+                  <div className="alert-info">
+                    <span className={alert.type === 'fire' ? 'critical' : 'warning'}>
+                      {alert.type === 'fire' ? 'Critical' : 'Warning'}
+                    </span>
+                    <h3>{alert.type || 'Safety Alert'}</h3>
+                    <p>Confidence: {alert.confidence || 'N/A'}%</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div style={{ textAlign: 'center', padding: '30px', color: '#888' }}>
+                <i className="fa-regular fa-circle-check" style={{ fontSize: '28px', color: '#22c55e' }}></i>
+                <p style={{ marginTop: '8px' }}>No active fire alerts</p>
               </div>
-              <button className="handled-btn" onClick={() => alert('Alert marked as handled')}>
-                Mark Handled
-              </button>
-            </div>
+            )}
           </div>
 
           {/* Quick Access */}
@@ -161,29 +203,18 @@ export default function OverviewDashboard() {
           <h2>Facility Area Status</h2>
 
           <div className="status-grid">
-            <div className="status-card">
-              <h3>ASSEMBLY FLOOR</h3>
-              <h1>98%</h1>
-              <p>Compliance</p>
-            </div>
-
-            <div className="status-card">
-              <h3>WAREHOUSE A</h3>
-              <h1>95%</h1>
-              <p>Compliance</p>
-            </div>
-
-            <div className="status-card">
-              <h3>LOADING DOCK</h3>
-              <h1>92%</h1>
-              <p>Compliance</p>
-            </div>
-
-            <div className="status-card danger">
-              <h3>CHEMICAL STORAGE</h3>
-              <h1>45%</h1>
-              <p>Compliance</p>
-            </div>
+            {(stats.areas || [
+              { name: 'ASSEMBLY FLOOR', compliance: 98 },
+              { name: 'WAREHOUSE A', compliance: 95 },
+              { name: 'LOADING DOCK', compliance: 92 },
+              { name: 'CHEMICAL STORAGE', compliance: 45 }
+            ]).map((area, idx) => (
+              <div className={`status-card ${(area.compliance ?? area.value ?? 100) < 60 ? 'danger' : ''}`} key={idx}>
+                <h3>{(area.name || area.area || `AREA ${idx + 1}`).toUpperCase()}</h3>
+                <h1>{area.compliance ?? area.value ?? '—'}%</h1>
+                <p>Compliance</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

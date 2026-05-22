@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getProfile, updateUser, logoutUser } from '../../services/api';
 import './AccountSettings.css';
 
 export default function AccountSettings() {
@@ -7,31 +8,60 @@ export default function AccountSettings() {
   const fileInputRef = useRef(null);
 
   const [user, setUser] = useState({
-    name: 'Marcus Chen',
-    email: 'marcus@factory.com',
-    role: 'Safety Supervisor',
+    id: null,
+    name: 'Loading...',
+    email: 'Loading...',
+    role: 'Loading...',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop'
   });
 
   const [isEditing, setIsEditing] = useState(false);
   const [tempUser, setTempUser] = useState({ name: '', role: '', email: '' });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // Load user details from localStorage
+  // Load user details from API
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    async function fetchProfile() {
+      setLoading(true);
+      setError('');
       try {
-        const parsed = JSON.parse(storedUser);
-        setUser({
-          name: parsed.name || 'Marcus Chen',
-          email: parsed.email || 'marcus@factory.com',
-          role: parsed.role || 'Safety Supervisor',
-          avatar: parsed.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop'
-        });
-      } catch (e) {
-        console.error("Failed to parse user", e);
+        const response = await getProfile();
+        const profile = response?.data || response || {};
+        
+        const userData = {
+          id: profile.id,
+          name: profile.name || 'Unknown User',
+          email: profile.email || '',
+          role: profile.role || 'Supervisor',
+          avatar: profile.avatar ? (profile.avatar.startsWith('http') ? profile.avatar : `http://178.16.131.178/storage/${profile.avatar}`) : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop'
+        };
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        window.dispatchEvent(new Event('userUpdated'));
+      } catch (err) {
+        setError(err.message || 'Failed to load profile data');
+        // Fallback to local storage
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          try {
+            const parsed = JSON.parse(storedUser);
+            setUser({
+              id: parsed.id,
+              name: parsed.name || 'Unknown User',
+              email: parsed.email || '',
+              role: parsed.role || 'Supervisor',
+              avatar: parsed.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop'
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      } finally {
+        setLoading(false);
       }
     }
+    fetchProfile();
   }, []);
 
   const handleAvatarClick = () => {
@@ -43,7 +73,6 @@ export default function AccountSettings() {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (limit to 2MB)
       if (file.size > 2 * 1024 * 1024) {
         alert("Image size is too large! Please choose an image smaller than 2MB.");
         return;
@@ -56,9 +85,8 @@ export default function AccountSettings() {
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
         
-        // Dispatch event for other components to reactively sync
         window.dispatchEvent(new Event('userUpdated'));
-        alert('Profile picture updated successfully!');
+        alert('Profile picture updated successfully! (Note: Not saved to server yet)');
       };
       reader.readAsDataURL(file);
     }
@@ -73,41 +101,53 @@ export default function AccountSettings() {
     setIsEditing(true);
   };
 
-  const handleSaveProfile = (e) => {
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
-    if (!tempUser.name.trim()) {
-      alert('Full Name cannot be empty!');
-      return;
-    }
-    if (!tempUser.role.trim()) {
-      alert('Job title/role cannot be empty!');
+    if (!tempUser.name.trim() || !tempUser.role.trim() || !tempUser.email.trim()) {
+      alert('Fields cannot be empty!');
       return;
     }
 
-    const updatedUser = {
-      ...user,
-      name: tempUser.name.trim(),
-      role: tempUser.role.trim(),
-      email: tempUser.email.trim()
-    };
+    try {
+      if (user.id) {
+        await updateUser(user.id, {
+          name: tempUser.name.trim(),
+          role: tempUser.role.trim(),
+          email: tempUser.email.trim(),
+        });
+      }
 
-    setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    
-    // Dispatch event for components (like Sidebar) to sync
-    window.dispatchEvent(new Event('userUpdated'));
-    setIsEditing(false);
-    alert('Profile details updated successfully!');
+      const updatedUser = {
+        ...user,
+        name: tempUser.name.trim(),
+        role: tempUser.role.trim(),
+        email: tempUser.email.trim()
+      };
+
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      window.dispatchEvent(new Event('userUpdated'));
+      setIsEditing(false);
+      alert('Profile details updated successfully!');
+    } catch (err) {
+      alert(err.message || 'Failed to update profile');
+    }
   };
 
   const handleItemClick = (label) => {
-    console.log('Navigating to: ' + label);
     alert(`Opening: ${label}`);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (window.confirm('Are you sure you want to logout?')) {
-      alert('Logging out...');
+      try {
+        await logoutUser();
+      } catch (err) {
+        console.error('Logout API failed, forcing local logout', err);
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user');
+      }
       navigate('/login');
     }
   };
@@ -122,13 +162,27 @@ export default function AccountSettings() {
               <h1>Account Settings</h1>
             </div>
             <div className="header-right">
-              <span className="admin-access">Admin Access</span>
+              <span className="admin-access">{user.role === 'admin' ? 'Admin Access' : 'Supervisor Access'}</span>
               <div className="notification-icon" onClick={() => alert("No new notifications")}>
                 <i className="far fa-bell"></i>
                 <span className="dot"></span>
               </div>
             </div>
           </header>
+
+          {error && (
+            <div style={{
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: '#ef4444',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              margin: '0 0 16px',
+              fontSize: '14px'
+            }}>
+              <i className="fa-solid fa-circle-exclamation"></i> {error}
+            </div>
+          )}
 
           <div className="settings-container">
             {/* Profile Card */}
@@ -138,7 +192,6 @@ export default function AccountSettings() {
                   <img src={user.avatar} alt={user.name} />
                   <div className="camera-icon"><i className="fas fa-camera"></i></div>
                 </div>
-                {/* Hidden File Input for Avatar Upload */}
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -149,13 +202,13 @@ export default function AccountSettings() {
 
                 {!isEditing ? (
                   <div className="profile-info">
-                    <h2>{user.name}</h2>
-                    <p>{user.role} • {user.email}</p>
+                    <h2>{loading ? 'Loading...' : user.name}</h2>
+                    <p>{loading ? '...' : `${user.role} • ${user.email}`}</p>
                     <div className="profile-actions">
-                      <button className="btn-edit" onClick={handleStartEdit}>
+                      <button className="btn-edit" onClick={handleStartEdit} disabled={loading}>
                         <i className="fas fa-edit"></i> Edit Profile
                       </button>
-                      <button className="btn-secondary" onClick={() => alert(`Your ID Badge Number: ID-${user.name.length * 123}`)}>
+                      <button className="btn-secondary" onClick={() => alert(`Your ID Badge Number: ID-${user.name.length * 123}`)} disabled={loading}>
                         View ID Badge
                       </button>
                     </div>
@@ -209,10 +262,10 @@ export default function AccountSettings() {
                   <div className="settings-item" onClick={handleStartEdit}>
                     <div className="item-left">
                       <div className="icon-box blue"><i className="far fa-user"></i></div>
-                      <span className="item-label">Supervisor Details</span>
+                      <span className="item-label">User Details</span>
                     </div>
                     <div className="item-right">
-                      <span className="item-value">{user.name} ({user.role})</span>
+                      <span className="item-value">{user.name}</span>
                       <i className="fas fa-chevron-right"></i>
                     </div>
                   </div>

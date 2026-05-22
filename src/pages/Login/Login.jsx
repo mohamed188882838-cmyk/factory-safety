@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../services/api';
 import './Login.css';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
-    // Simulate navigation to dashboard
-    navigate('/dashboard');
+    setError('');
+    setLoading(true);
+
+    try {
+      await loginUser(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,6 +44,24 @@ export default function Login() {
 
         {/* Login Card */}
         <form className="login-card" onSubmit={handleSignIn}>
+          {error && (
+            <div className="error-message" style={{
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: '#ef4444',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              marginBottom: '16px',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <i className="fa-solid fa-circle-exclamation"></i>
+              {error}
+            </div>
+          )}
+
           <div className="input-group">
             <label>Email Address</label>
             <div className="input-box">
@@ -42,6 +72,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={loading}
               />
             </div>
           </div>
@@ -60,6 +91,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={loading}
               />
               <i
                 className={`fa-regular eye ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
@@ -74,17 +106,19 @@ export default function Login() {
             <label htmlFor="remember">Remember this device for 30 days</label>
           </div>
 
-          <button type="submit" className="login-btn">
-            Sign In to Supervisor Console
-            <i class="fa-solid fa-arrow-right"></i>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? (
+              <>
+                <i className="fa-solid fa-spinner fa-spin"></i>
+                Signing In...
+              </>
+            ) : (
+              <>
+                Sign In to Supervisor Console
+                <i className="fa-solid fa-arrow-right"></i>
+              </>
+            )}
           </button>
-
-          <div className="divider"></div>
-
-          <p className="signup-text">
-            New to the platform?{' '}
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/register'); }}>Create an account</a>
-          </p>
         </form>
 
         {/* Footer */}

@@ -1,136 +1,103 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { getAllPeeLogs } from '../../services/api';
 import './HelmetDetection.css';
 
 export default function HelmetDetection() {
-  const [incidents, setIncidents] = useState([
-    {
-      id: '#7821',
-      dept: 'Production Department',
-      loc: 'Assembly Line 4',
-      time: '10:24 AM',
-      img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1000&auto=format&fit=crop',
-      handled: false,
-    },
-    {
-      id: '#7819',
-      dept: 'Logistics Department',
-      loc: 'Loading Dock B',
-      time: '09:45 AM',
-      img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop',
-      handled: false,
-    },
-    {
-      id: '#7815',
-      dept: 'Maintenance Department',
-      loc: 'Maintenance Bay 2',
-      time: '08:12 AM',
-      img: 'https://images.unsplash.com/photo-1581092921461-eab10380bee1?q=80&w=1000&auto=format&fit=crop',
-      handled: true,
+  const [incidents, setIncidents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError('');
+      try {
+        const response = await getAllPeeLogs();
+        const allLogs = response?.data || response || [];
+        const helmetLogs = Array.isArray(allLogs)
+          ? allLogs.filter(log => log.type === 'helmet')
+          : [];
+        setIncidents(helmetLogs);
+      } catch (err) {
+        setError(err.message || 'Failed to load helmet detection data');
+      } finally {
+        setLoading(false);
+      }
     }
-  ]);
+    fetchData();
+  }, []);
 
-  const handleMarkResolved = (id) => {
-    setIncidents(prev => prev.map(inc => inc.id === id ? { ...inc, handled: true } : inc));
-    alert(`Incident ${id} marked as resolved!`);
-  };
-
-  const activeUnhandled = incidents.filter(i => !i.handled).length;
+  const totalToday = incidents.length;
 
   return (
     <div className="helmet-detection-wrapper">
-      {/* Topbar */}
       <header className="topbar">
-        <h2>Helmet Detection Review</h2>
-
-        <div className="top-actions">
-          <div className="search-box">
-            <i className="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search by ID or Location..." />
-          </div>
-
-          <button onClick={() => alert('Exporting helmet detection data...')}>
-            <i className="fa-solid fa-download"></i>
-            Export Data
-          </button>
-
-          <button className="blue-btn" onClick={() => alert('Alerting safety team...')}>
-            <i className="fa-solid fa-bell"></i>
-            Alert Team
-          </button>
-        </div>
+        <h2>Helmet Detection Log</h2>
       </header>
 
+      {error && (
+        <div style={{
+          background: 'rgba(239, 68, 68, 0.1)',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          color: '#ef4444',
+          padding: '12px 16px',
+          borderRadius: '12px',
+          margin: '0 0 16px',
+          fontSize: '14px'
+        }}>
+          <i className="fa-solid fa-circle-exclamation"></i> {error}
+        </div>
+      )}
+
       {/* Stats */}
-      <section className="stats-grid">
+      <section className="stats-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
         <div className="stat-card">
-          <h4>Total Violations Today</h4>
-          <h1>24</h1>
-          <p className="red">+12% from yesterday</p>
+          <h4>Total Violations Logged</h4>
+          <h1>{loading ? '...' : totalToday}</h1>
+          <p className="red">Helmet violations detected</p>
         </div>
 
         <div className="stat-card">
-          <h4>Active Unhandled</h4>
-          <h1>{activeUnhandled}</h1>
-          <p>-4 from yesterday</p>
+          <h4>Detection Type</h4>
+          <h1>Helmet</h1>
+          <p>PPE category filter</p>
         </div>
-
-        <div className="stat-card">
-          <h4>Compliance Rate</h4>
-          <h1>94.2%</h1>
-          <p className="green" style={{ color: 'green' }}>+2.1% from yesterday</p>
-        </div>
-
-        <div className="stat-card">
-          <h4>Most Problematic Area</h4>
-          <h1>Loading Dock B</h1>
-          <p>Unchanged from yesterday</p>
-        </div>
-      </section>
-
-      {/* Filters */}
-      <section className="filters">
-        <button onClick={() => alert('Filtering by All Shifts...')}>All Shifts</button>
-        <button onClick={() => alert('Filtering by Status...')}>Status: New</button>
-        <button onClick={() => alert('Filtering by Department...')}>Department: Production</button>
       </section>
 
       {/* Incidents */}
       <section className="cards-grid">
-        {incidents.map((incident) => (
-          <div
-            key={incident.id}
-            className={`incident-card ${!incident.handled ? 'violation' : ''}`}
-          >
-            <img src={incident.img} alt={`Incident ${incident.id}`} />
-
-            <div className="incident-content">
-              {incident.handled ? (
-                <div className="badge gray-badge">Handled</div>
-              ) : (
-                <div className="badge red-badge">Violation Detected</div>
-              )}
-
-              <h3>Incident {incident.id}</h3>
-              <p>{incident.dept}</p>
-
-              <div className="info-row">
-                <span>{incident.loc}</span>
-                <span>{incident.time}</span>
-              </div>
-
-              {incident.handled ? (
-                <button className="disabled-btn" disabled>
-                  Resolved by Supervisor
-                </button>
-              ) : (
-                <button className="mark-btn" onClick={() => handleMarkResolved(incident.id)}>
-                  Mark as Handled
-                </button>
-              )}
-            </div>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '60px', color: '#888', gridColumn: '1 / -1' }}>
+            <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '32px' }}></i>
+            <p style={{ marginTop: '12px' }}>Loading helmet detection data...</p>
           </div>
-        ))}
+        ) : incidents.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px', color: '#888', gridColumn: '1 / -1' }}>
+            <i className="fa-regular fa-circle-check" style={{ fontSize: '32px', color: '#22c55e' }}></i>
+            <p style={{ marginTop: '12px' }}>No helmet violations found</p>
+          </div>
+        ) : (
+          incidents.map((incident) => (
+            <div key={incident.id} className="incident-card violation">
+              <img
+                src={incident.image ? (incident.image.startsWith('http') ? incident.image : `http://178.16.131.178/storage/${incident.image}`) : 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1000&auto=format&fit=crop'}
+                alt={`Incident ${incident.id}`}
+              />
+
+              <div className="incident-content">
+                <div className="badge red-badge">Violation Detected</div>
+
+                <h3>Incident #{incident.id}</h3>
+                <p>Camera {incident.number_camera || 'N/A'}</p>
+
+                <div className="info-row">
+                  <span>{incident.location || 'Detection Zone'}</span>
+                  <span>{incident.created_at ? new Date(incident.created_at).toLocaleTimeString() : ''}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </section>
     </div>
   );

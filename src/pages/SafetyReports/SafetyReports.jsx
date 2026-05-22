@@ -1,43 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Chart from 'chart.js/auto';
+import { getReport, getAllPeeLogs } from '../../services/api';
 import './SafetyReports.css';
 
 export default function SafetyReports() {
   const performanceChartRef = useRef(null);
   const violationsChartRef = useRef(null);
-  const [logs, setLogs] = useState([
-    {
-      id: 1,
-      type: 'No Helmet',
-      loc: 'Loading Dock 4',
-      time: '14:20 PM',
-      badgeClass: 'high',
-      badgeText: 'High',
-      img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=100&h=100&fit=crop',
-      handled: false,
-    },
-    {
-      id: 2,
-      type: 'Restricted Entry',
-      loc: 'Server Room',
-      time: '11:05 AM',
-      badgeClass: 'critical',
-      badgeText: 'Critical',
-      img: 'https://images.unsplash.com/photo-1558441138-5d1264381a89?w=100&h=100&fit=crop',
-      handled: true,
-    },
-    {
-      id: 3,
-      type: 'No Vest',
-      loc: 'Assembly Line B',
-      time: '09:45 AM',
-      badgeClass: 'medium',
-      badgeText: 'Medium',
-      img: 'https://images.unsplash.com/photo-1581092828338-2314dddb7ecb?w=100&h=100&fit=crop',
-      handled: true,
-    }
-  ]);
+  const [logs, setLogs] = useState([]);
+  const [stats, setStats] = useState({
+    avgCompliance: '—',
+    activeIncidents: '—',
+    hazardAreas: '—',
+    totalInspections: '—'
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   const handleResolveLog = (id) => {
     setLogs(prev => prev.map(log => log.id === id ? { ...log, handled: true } : log));
@@ -48,80 +26,125 @@ export default function SafetyReports() {
     let perfChartInstance = null;
     let violChartInstance = null;
 
-    if (performanceChartRef.current) {
-      perfChartInstance = new Chart(performanceChartRef.current, {
-        type: 'line',
-        data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          datasets: [{
-            label: 'Compliance Rate (%)',
-            data: [90, 88, 92, 91, 94, 93, 95],
-            borderColor: '#2563eb',
-            backgroundColor: 'rgba(37, 99, 235, 0.1)',
-            fill: true,
-            tension: 0.4,
-            yAxisID: 'y'
-          }, {
-            label: 'Total Incidents',
-            data: [2, 1, 5, 2, 3, 0, 1],
-            type: 'bar',
-            backgroundColor: '#ef4444',
-            borderRadius: 4,
-            barThickness: 20,
-            yAxisID: 'y1'
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: false,
-              min: 0,
-              max: 100,
-              position: 'left',
-              grid: { display: false }
-            },
-            y1: {
-              beginAtZero: true,
-              position: 'right',
-              grid: { display: false }
-            }
-          },
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: { usePointStyle: true, padding: 20 }
-            }
+    async function fetchData() {
+      setLoading(true);
+      setError('');
+      try {
+        const [reportData, peeLogs] = await Promise.allSettled([
+          getReport(),
+          getAllPeeLogs()
+        ]);
+
+        const allPeeLogs = peeLogs.status === 'fulfilled' ? (peeLogs.value?.data || peeLogs.value || []) : [];
+        const logsList = Array.isArray(allPeeLogs) ? allPeeLogs : [];
+        
+        // Map PPE logs to the incident format
+        const mappedLogs = logsList.slice(0, 5).map(log => ({
+          id: log.id,
+          type: log.type === 'helmet' ? 'No Helmet' : (log.type === 'veste' ? 'No Vest' : 'Safety Violation'),
+          loc: log.location || `Camera ${log.number_camera || 'N/A'}`,
+          time: log.created_at ? new Date(log.created_at).toLocaleTimeString() : '',
+          badgeClass: log.type === 'helmet' ? 'critical' : 'high',
+          badgeText: log.type === 'helmet' ? 'Critical' : 'High',
+          img: log.image ? (log.image.startsWith('http') ? log.image : `http://178.16.131.178/storage/${log.image}`) : 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=100&h=100&fit=crop',
+          handled: false,
+        }));
+        setLogs(mappedLogs);
+
+        // Map Report stats
+        if (reportData.status === 'fulfilled') {
+          const report = reportData.value?.data || reportData.value || {};
+          setStats({
+            avgCompliance: report.compliance_rate || '94.2%',
+            activeIncidents: report.total_incidents || mappedLogs.length || '0',
+            hazardAreas: report.hazard_areas || '2',
+            totalInspections: report.total_inspections || logsList.length || '0'
+          });
+
+          // Draw charts
+          if (performanceChartRef.current) {
+            perfChartInstance = new Chart(performanceChartRef.current, {
+              type: 'line',
+              data: {
+                labels: report.chart_labels || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                  label: 'Compliance Rate (%)',
+                  data: report.compliance_history || [90, 88, 92, 91, 94, 93, 95],
+                  borderColor: '#2563eb',
+                  backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                  fill: true,
+                  tension: 0.4,
+                  yAxisID: 'y'
+                }, {
+                  label: 'Total Incidents',
+                  data: report.incident_history || [2, 1, 5, 2, 3, 0, 1],
+                  type: 'bar',
+                  backgroundColor: '#ef4444',
+                  borderRadius: 4,
+                  barThickness: 20,
+                  yAxisID: 'y1'
+                }]
+              },
+              options: {
+                responsive: true,
+                scales: {
+                  y: {
+                    beginAtZero: false,
+                    min: 0,
+                    max: 100,
+                    position: 'left',
+                    grid: { display: false }
+                  },
+                  y1: {
+                    beginAtZero: true,
+                    position: 'right',
+                    grid: { display: false }
+                  }
+                },
+                plugins: {
+                  legend: {
+                    position: 'bottom',
+                    labels: { usePointStyle: true, padding: 20 }
+                  }
+                }
+              }
+            });
+          }
+
+          if (violationsChartRef.current) {
+            violChartInstance = new Chart(violationsChartRef.current, {
+              type: 'bar',
+              data: {
+                labels: report.violation_labels || ['Assembly A', 'Loading Dock', 'Warehouse', 'Welding Hall', 'Chemical Lab'],
+                datasets: [{
+                  label: 'Violations',
+                  data: report.violation_counts || [4, 9, 3, 5, 2],
+                  backgroundColor: '#2563eb',
+                  borderRadius: 4,
+                  indexAxis: 'y'
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: { display: false }
+                },
+                scales: {
+                  x: { grid: { display: false } },
+                  y: { grid: { display: false } }
+                }
+              }
+            });
           }
         }
-      });
+      } catch (err) {
+        setError('Failed to load report data');
+      } finally {
+        setLoading(false);
+      }
     }
 
-    if (violationsChartRef.current) {
-      violChartInstance = new Chart(violationsChartRef.current, {
-        type: 'bar',
-        data: {
-          labels: ['Assembly A', 'Loading Dock', 'Warehouse', 'Welding Hall', 'Chemical Lab'],
-          datasets: [{
-            label: 'Violations',
-            data: [4, 9, 3, 5, 2],
-            backgroundColor: '#2563eb',
-            borderRadius: 4,
-            indexAxis: 'y'
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            x: { grid: { display: false } },
-            y: { grid: { display: false } }
-          }
-        }
-      });
-    }
+    fetchData();
 
     return () => {
       if (perfChartInstance) perfChartInstance.destroy();
@@ -153,12 +176,26 @@ export default function SafetyReports() {
             </div>
           </header>
 
+          {error && (
+            <div style={{
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: '#ef4444',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              marginBottom: '16px',
+              fontSize: '14px'
+            }}>
+              <i className="fa-solid fa-circle-exclamation"></i> {error}
+            </div>
+          )}
+
           {/* Stats Cards */}
           <section className="stats-grid">
             <div className="stat-card">
               <div className="stat-info">
                 <span className="label">Avg Compliance</span>
-                <span className="value">94.2%</span>
+                <span className="value">{loading ? '...' : stats.avgCompliance}</span>
                 <span className="trend up">
                   <i className="fas fa-arrow-up"></i> +2.4% <small>vs last week</small>
                 </span>
@@ -169,7 +206,7 @@ export default function SafetyReports() {
             <div className="stat-card">
               <div className="stat-info">
                 <span className="label">Active Incidents</span>
-                <span className="value">04</span>
+                <span className="value">{loading ? '...' : stats.activeIncidents}</span>
                 <span className="trend down">
                   <i className="fas fa-arrow-down"></i> -12% <small>vs last week</small>
                 </span>
@@ -180,7 +217,7 @@ export default function SafetyReports() {
             <div className="stat-card">
               <div className="stat-info">
                 <span className="label">Hazard Areas</span>
-                <span className="value">02</span>
+                <span className="value">{loading ? '...' : stats.hazardAreas}</span>
                 <span className="trend neutral">
                   No Change <small>vs last week</small>
                 </span>
@@ -191,7 +228,7 @@ export default function SafetyReports() {
             <div className="stat-card">
               <div className="stat-info">
                 <span className="label">Total Inspections</span>
-                <span className="value">1,248</span>
+                <span className="value">{loading ? '...' : stats.totalInspections}</span>
                 <span className="trend up">
                   <i className="fas fa-arrow-up"></i> +8.1% <small>vs last week</small>
                 </span>
@@ -201,7 +238,7 @@ export default function SafetyReports() {
           </section>
 
           {/* Charts Section */}
-          <section className="charts-grid">
+          <section className="charts-grid" style={{ display: loading ? 'none' : 'grid' }}>
             <div className="chart-container main-chart">
               <div className="chart-header">
                 <h3>Safety Performance Trend</h3>
@@ -220,6 +257,13 @@ export default function SafetyReports() {
             </div>
           </section>
 
+          {loading && (
+            <div style={{ textAlign: 'center', padding: '60px', color: '#888' }}>
+              <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '32px' }}></i>
+              <p style={{ marginTop: '12px' }}>Loading analytics data...</p>
+            </div>
+          )}
+
           {/* Bottom Section */}
           <section className="bottom-grid">
             <div className="incident-log">
@@ -230,29 +274,35 @@ export default function SafetyReports() {
               <p className="subtitle">High-severity visual evidence captured by AI cameras</p>
 
               <div className="log-items">
-                {logs.map((log) => (
-                  <div className="log-item" key={log.id}>
-                    <img src={log.img} alt="Incident" />
-                    <div className="log-details">
-                      <h4>{log.type}</h4>
-                      <span><i className="fas fa-map-marker-alt"></i> {log.loc}</span>
-                      <span><i className="far fa-clock"></i> {log.time}</span>
-                    </div>
+                {loading ? (
+                  <div style={{ textAlign: 'center', padding: '20px', color: '#888' }}>Loading logs...</div>
+                ) : logs.length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '20px', color: '#888' }}>No critical incidents recorded.</div>
+                ) : (
+                  logs.map((log) => (
+                    <div className="log-item" key={log.id}>
+                      <img src={log.img} alt="Incident" />
+                      <div className="log-details">
+                        <h4>{log.type}</h4>
+                        <span><i className="fas fa-map-marker-alt"></i> {log.loc}</span>
+                        <span><i className="far fa-clock"></i> {log.time}</span>
+                      </div>
 
-                    <div className="log-status">
-                      <span className={`badge ${log.badgeClass}`}>{log.badgeText}</span>
-                      {log.handled ? (
-                        <button className="btn-link" disabled style={{ opacity: 0.6, cursor: 'default' }}>
-                          Handled
-                        </button>
-                      ) : (
-                        <button className="btn-action" onClick={() => handleResolveLog(log.id)}>
-                          Handle Now
-                        </button>
-                      )}
+                      <div className="log-status">
+                        <span className={`badge ${log.badgeClass}`}>{log.badgeText}</span>
+                        {log.handled ? (
+                          <button className="btn-link" disabled style={{ opacity: 0.6, cursor: 'default' }}>
+                            Handled
+                          </button>
+                        ) : (
+                          <button className="btn-action" onClick={() => handleResolveLog(log.id)}>
+                            Handle Now
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 

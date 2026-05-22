@@ -1,78 +1,64 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { getAllPeeLogs } from '../../services/api';
 import './VestDetection.css';
 
 export default function VestDetection() {
-  const [workers, setWorkers] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      dept: 'Logistics',
-      loc: 'Loading Bay B-4',
-      time: '10:45 AM',
-      img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop',
-      handled: false,
-    },
-    {
-      id: 2,
-      name: 'Unknown Worker',
-      dept: 'Production',
-      loc: 'Assembly Area 2',
-      time: '09:30 AM',
-      img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1000&auto=format&fit=crop',
-      handled: false,
-    },
-    {
-      id: 3,
-      name: 'Michael Chen',
-      dept: 'Safety Compliance',
-      loc: 'Chemical Storage',
-      time: '08:15 AM',
-      img: 'https://images.unsplash.com/photo-1581092921461-eab10380bee1?q=80&w=1000&auto=format&fit=crop',
-      handled: true,
+  const [workers, setWorkers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError('');
+      try {
+        const response = await getAllPeeLogs();
+        const allLogs = response?.data || response || [];
+        const vestLogs = Array.isArray(allLogs)
+          ? allLogs.filter(log => log.type === 'veste' || log.type === 'vest')
+          : [];
+        setWorkers(vestLogs);
+      } catch (err) {
+        setError(err.message || 'Failed to load vest detection data');
+      } finally {
+        setLoading(false);
+      }
     }
-  ]);
+    fetchData();
+  }, []);
 
-  const handleMarkHandled = (id) => {
-    setWorkers(prev => prev.map(w => w.id === id ? { ...w, handled: true } : w));
-    alert(`Alert for worker resolved!`);
-  };
-
-  const activeAlerts = workers.filter(w => !w.handled).length;
-  const handledCount = workers.filter(w => w.handled).length;
+  const totalToday = workers.length;
 
   return (
     <div className="vest-detection-wrapper">
-      {/* Main */}
       <header className="topbar">
-        <h2>Vest Detection</h2>
-
-        <div className="top-icons">
-          <i className="fa-regular fa-bell" style={{ cursor: 'pointer' }}></i>
-          <i className="fa-solid fa-ellipsis-vertical" style={{ cursor: 'pointer' }}></i>
-        </div>
+        <h2>Vest Detection Log</h2>
       </header>
 
+      {error && (
+        <div style={{
+          background: 'rgba(239, 68, 68, 0.1)',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          color: '#ef4444',
+          padding: '12px 16px',
+          borderRadius: '12px',
+          margin: '0 0 16px',
+          fontSize: '14px'
+        }}>
+          <i className="fa-solid fa-circle-exclamation"></i> {error}
+        </div>
+      )}
+
       {/* Stats */}
-      <section className="stats">
+      <section className="stats" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
         <div className="box">
-          <h4>Active Alerts</h4>
-          <h1>{activeAlerts}</h1>
+          <h4>Total Violations Logged</h4>
+          <h1>{loading ? '...' : totalToday}</h1>
         </div>
 
         <div className="box">
-          <h4>Total Today</h4>
-          <h1>12</h1>
-        </div>
-
-        <div className="box">
-          <h4>Handled</h4>
-          <h1>{handledCount}</h1>
-        </div>
-
-        <div className="box">
-          <h4>Compliance</h4>
-          <h1>94%</h1>
+          <h4>Detection Type</h4>
+          <h1>Vest</h1>
         </div>
       </section>
 
@@ -81,31 +67,37 @@ export default function VestDetection() {
         <h2>Live Detection Stream</h2>
 
         <div className="stream-grid">
-          {workers.map((worker) => (
-            <div className="stream-card" key={worker.id}>
-              <img src={worker.img} alt={worker.name} />
-
-              <div className="stream-content">
-                <h3>{worker.name}</h3>
-                <p>{worker.dept}</p>
-
-                <div className="time">
-                  <span>{worker.loc}</span>
-                  <span>{worker.time}</span>
-                </div>
-
-                {worker.handled ? (
-                  <button className="gray" disabled>
-                    No Actions Required
-                  </button>
-                ) : (
-                  <button onClick={() => handleMarkHandled(worker.id)}>
-                    Mark as Handled
-                  </button>
-                )}
-              </div>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '60px', color: '#888', gridColumn: '1 / -1' }}>
+              <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '32px' }}></i>
+              <p style={{ marginTop: '12px' }}>Loading vest detection data...</p>
             </div>
-          ))}
+          ) : workers.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px', color: '#888', gridColumn: '1 / -1' }}>
+              <i className="fa-regular fa-circle-check" style={{ fontSize: '32px', color: '#22c55e' }}></i>
+              <p style={{ marginTop: '12px' }}>No vest violations found</p>
+            </div>
+          ) : (
+            workers.map((worker) => (
+              <div className="stream-card" key={worker.id}>
+                <img
+                  src={worker.image ? (worker.image.startsWith('http') ? worker.image : `http://178.16.131.178/storage/${worker.image}`) : 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop'}
+                  alt={`Worker ${worker.id}`}
+                />
+
+                <div className="stream-content">
+                  <div className="badge red-badge" style={{ marginBottom: '10px', display: 'inline-block' }}>Violation</div>
+                  <h3>Incident #{worker.id}</h3>
+                  <p>Camera {worker.number_camera || 'N/A'}</p>
+
+                  <div className="time">
+                    <span>{worker.location || 'Detection Zone'}</span>
+                    <span>{worker.created_at ? new Date(worker.created_at).toLocaleTimeString() : ''}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </section>
     </div>

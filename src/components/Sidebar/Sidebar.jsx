@@ -63,10 +63,10 @@ export default function Sidebar() {
           </NavLink>
         </li>
         <li>
-          <a href="#" onClick={(e) => { e.preventDefault(); alert("Factory Map visualization is loading..."); }}>
-            <i className="fa-regular fa-map"></i>
-            Factory Map
-          </a>
+          <NavLink to="/user-management" className={({ isActive }) => isActive ? 'active' : ''}>
+            <i className="fa-solid fa-users-gear"></i>
+            User Management
+          </NavLink>
         </li>
         <li>
           <NavLink to="/reports" className={({ isActive }) => isActive ? 'active' : ''}>
@@ -101,6 +101,12 @@ export default function Sidebar() {
           <NavLink to="/gate-monitoring" className={({ isActive }) => isActive ? 'active' : ''}>
             <i className="fa-solid fa-door-open"></i>
             Gate Monitoring
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/fire-detection" className={({ isActive }) => isActive ? 'active' : ''}>
+            <i className="fa-solid fa-fire-flame-simple"></i>
+            Fire Detection
           </NavLink>
         </li>
       </ul>

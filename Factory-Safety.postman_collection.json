@@ -1,0 +1,1251 @@
+{
+  "info": {
+    "_postman_id": "ca748e8c-3cb9-49fe-a8c2-050c7f64ccab",
+    "name": "Factory-Safety",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52473412",
+    "_collection_link": "https://go.postman.co/collection/52473412-ca748e8c-3cb9-49fe-a8c2-050c7f64ccab?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Vehicle",
+      "item": [
+        {
+          "name": "All Vehicle Log",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://178.16.131.178/api/vehicle-log/all",
+              "protocol": "http",
+              "host": [
+                "178",
+                "16",
+                "131",
+                "178"
+              ],
+              "path": [
+                "api",
+                "vehicle-log",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show Vehicle Log",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicle-log/1",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicle-log",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Vehicle Log",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "license_plate",
+                  "value": "وار 3698",
+                  "type": "text",
+                  "uuid": "858b8e02-de12-4f1a-ac41-a2233cb64cc7"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "2b90a310-a502-47ec-9727-f98179fa69c3",
+                  "src": "NeovbLKas/photo_5947291358974381225_y.jpg"
+                },
+                {
+                  "key": "number_camera",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "96576055-6b78-4ca8-9f87-255092399449"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicle-log",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicle-log"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get All Page Dashboard",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "3|aqRpTugriHHUg9QhHMUH7yCcC953sus2uiqcjXqA64849fa7",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/dashboard",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "PEE",
+      "item": [
+        {
+          "name": "All PEE Log",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/pee-log/all",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "pee-log",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show PEE Log",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/pee-log/1",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "pee-log",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI PEE Log",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "c4702379-938d-4f31-9503-c136fc1ccf67",
+                  "src": "fOHgUQYV6/WhatsApp Image 2026-02-22 at 10.45.42 PM.jpeg"
+                },
+                {
+                  "key": "number_camera",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "a59f3cca-a8c7-4f4c-820c-76ded731a40e"
+                },
+                {
+                  "key": "type",
+                  "value": "helmet",
+                  "description": "veste - helmet",
+                  "type": "text",
+                  "uuid": "0081ad6e-6827-44d2-8084-79d2218c8b74"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/pee-log",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "pee-log"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Report",
+      "item": [
+        {
+          "name": "Report Daily - Weekly",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "3|aqRpTugriHHUg9QhHMUH7yCcC953sus2uiqcjXqA64849fa7",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/report",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "report"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Admin add User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "ahmed",
+                  "type": "text",
+                  "uuid": "5772223e-2661-4f46-8d50-2e4fe17055d1"
+                },
+                {
+                  "key": "email",
+                  "value": "ahmed@gmail.com",
+                  "type": "text",
+                  "uuid": "8df4d502-bca1-451c-b0ca-accecd673d38"
+                },
+                {
+                  "key": "password",
+                  "value": "123456789",
+                  "type": "text",
+                  "uuid": "7bfd7bbb-85f1-4ae4-a6ea-a0a0946986d9"
+                },
+                {
+                  "key": "role",
+                  "value": "admin",
+                  "description": "user or admin ",
+                  "type": "text",
+                  "uuid": "8920bb20-e814-4278-ab9e-cb60d5c547b8"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "123456789",
+                  "type": "text",
+                  "uuid": "f0898392-0aef-4035-b25f-72f5df91ef42"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/add/user",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "add",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/users",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/users/1",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin update User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\":\"admin\",\n    \"email\":\"ahmed@gmail.com\",\n    \"password\":\"123456789\",\n    \"role\":\"user\",\n    \"password_confirmation\":\"123456789\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/users/2",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "users",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/users/7",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "users",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Vehicle",
+      "item": [
+        {
+          "name": "All vehicles",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicles",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Vehicle",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "authorized",
+                  "value": "0",
+                  "description": "0 or 1 ",
+                  "type": "text",
+                  "uuid": "b70b35e6-9e6c-45df-80e5-49c3c4e6760c"
+                },
+                {
+                  "key": "license_plate",
+                  "value": "و ل ج 1235",
+                  "description": "رقم العربيه النمره ",
+                  "type": "text",
+                  "uuid": "2cad614c-b41e-4fcb-be46-1a096cd82074"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "e8de8412-c3a1-49bd-8e2a-313efb1a3cee",
+                  "src": "XH0uClemX/photo_5947291358974381228_y.jpg"
+                },
+                {
+                  "key": "number_camera",
+                  "value": "1",
+                  "description": "حطها ب 1 عطول ",
+                  "type": "text",
+                  "uuid": "34fb54e0-b6f2-496e-86ef-5d5da9057c16",
+                  "disabled": true
+                },
+                {
+                  "key": "vehicle_type",
+                  "value": "car",
+                  "type": "text",
+                  "uuid": "c27575a0-b4eb-4c02-a513-7172b0bead0c"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicles",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Vehicle",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"authorized\": 1,\n}"
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicles/3",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicles",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Vehicle",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicles/3",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicles",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "authorized",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicles/authorized",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicles",
+                "authorized"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "unauthorized",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "1|meZ7Y8MZ9SD8RCktl9RwcWOSVjja1UIOC2BuY04a450f1bf3",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/vehicles/unauthorized",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "vehicles",
+                "unauthorized"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Fire Log",
+      "item": [
+        {
+          "name": "AI Fire Log",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "609d61a9-7cc8-4336-ae8a-06745b9b8dd0",
+                  "src": "wfZT9ck05/WhatsApp Image 2026-02-08 at 5.06.34 PM (2).jpeg"
+                },
+                {
+                  "key": "confidence",
+                  "value": "55.55",
+                  "type": "text",
+                  "uuid": "ff255fd5-6c95-40bc-a0fa-893e2301ad28"
+                },
+                {
+                  "key": "type",
+                  "value": "fire",
+                  "type": "text",
+                  "uuid": "811b416a-bcc4-4b07-b757-fdd657cd9129"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/fire-log",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "fire-log"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "All Fire Log",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/fire-logs",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "fire-logs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show Fire Log",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://72.62.186.142:8000/api/fire-logs/1",
+              "protocol": "http",
+              "host": [
+                "72",
+                "62",
+                "186",
+                "142"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "fire-logs",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "email",
+              "value": "admin@gmail.com",
+              "type": "text",
+              "uuid": "78d3be9c-2bca-4c82-9791-f4b09febaea3"
+            },
+            {
+              "key": "password",
+              "value": "123456789",
+              "type": "text",
+              "uuid": "8845e9ac-50e4-4b56-96b3-782a438436de"
+            },
+            {
+              "key": "fcm_token",
+              "value": "123123150000",
+              "type": "text",
+              "uuid": "4d94dc89-7696-4cd2-ac26-e1156dcea118",
+              "disabled": true
+            },
+            {
+              "key": "platform",
+              "value": "android",
+              "type": "text",
+              "uuid": "85446f04-0f83-4065-bb7c-6a2ac7b8f2da",
+              "disabled": true
+            },
+            {
+              "key": "device_name",
+              "value": "Hassan",
+              "type": "text",
+              "uuid": "177a11e4-ba69-4896-8ea6-86dd72937f8b",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://72.62.186.142:8000/api/login",
+          "protocol": "http",
+          "host": [
+            "72",
+            "62",
+            "186",
+            "142"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "u3HjUbyFoYTmoSOclWe0eaRbIRVdFQMrfbhgPTase35e3a82",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "http://72.62.186.142:8000/api/logout",
+          "protocol": "http",
+          "host": [
+            "72",
+            "62",
+            "186",
+            "142"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://72.62.186.142:8000/api/profile",
+          "protocol": "http",
+          "host": [
+            "72",
+            "62",
+            "186",
+            "142"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "profile"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
