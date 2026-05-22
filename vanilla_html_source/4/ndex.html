@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Vest Detection</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i>
+      <h2>Safety Supervisor</h2>
+    </div>
+
+    <ul class="menu">
+
+      <li>
+        <i class="fa-solid fa-table-columns"></i>
+        Dashboard
+      </li>
+
+      <li class="active">
+        <i class="fa-solid fa-user-check"></i>
+        Vest Detection
+      </li>
+
+      <li>
+        <i class="fa-solid fa-hard-hat"></i>
+        Helmet Detection
+      </li>
+
+    </ul>
+
+  </aside>
+
+  <!-- Main -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <h2>Vest Detection</h2>
+
+      <div class="top-icons">
+        <i class="fa-regular fa-bell"></i>
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </div>
+
+    </header>
+
+    <!-- Stats -->
+
+    <section class="stats">
+
+      <div class="box">
+        <h4>Active Alerts</h4>
+        <h1>4</h1>
+      </div>
+
+      <div class="box">
+        <h4>Total Today</h4>
+        <h1>12</h1>
+      </div>
+
+      <div class="box">
+        <h4>Handled</h4>
+        <h1>2</h1>
+      </div>
+
+      <div class="box">
+        <h4>Compliance</h4>
+        <h1>94%</h1>
+      </div>
+
+    </section>
+
+    <!-- Stream -->
+
+    <section class="stream">
+
+      <h2>Live Detection Stream</h2>
+
+      <div class="stream-grid">
+
+        <!-- Card -->
+
+        <div class="stream-card">
+
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop">
+
+          <div class="stream-content">
+
+            <h3>John Doe</h3>
+
+            <p>Logistics</p>
+
+            <div class="time">
+              <span>Loading Bay B-4</span>
+              <span>10:45 AM</span>
+            </div>
+
+            <button>Mark as Handled</button>
+
+          </div>
+
+        </div>
+
+        <!-- Card -->
+
+        <div class="stream-card">
+
+          <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1000&auto=format&fit=crop">
+
+          <div class="stream-content">
+
+            <h3>Unknown Worker</h3>
+
+            <p>Production</p>
+
+            <div class="time">
+              <span>Assembly Area 2</span>
+              <span>09:30 AM</span>
+            </div>
+
+            <button>Mark as Handled</button>
+
+          </div>
+
+        </div>
+
+        <!-- Card -->
+
+        <div class="stream-card">
+
+          <img src="https://images.unsplash.com/photo-1581092921461-eab10380bee1?q=80&w=1000&auto=format&fit=crop">
+
+          <div class="stream-content">
+
+            <h3>Michael Chen</h3>
+
+            <p>Safety Compliance</p>
+
+            <div class="time">
+              <span>Chemical Storage</span>
+              <span>08:15 AM</span>
+            </div>
+
+            <button class="gray">
+              No Actions Required
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+<script src="script.js"></script>
+
+</body>
+</html>

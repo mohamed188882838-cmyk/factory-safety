@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Safety Supervisor Dashboard</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i>
+      <h2>Safety Supervisor</h2>
+    </div>
+
+    <div class="menu-title">MAIN MENU</div>
+
+    <ul class="menu">
+      <li class="active">
+        <i class="fa-solid fa-table-columns"></i>
+        Dashboard
+      </li>
+
+      <li>
+        <i class="fa-regular fa-map"></i>
+        Factory Map
+      </li>
+
+      <li>
+        <i class="fa-regular fa-clipboard"></i>
+        Safety Reports
+      </li>
+
+      <li>
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </li>
+    </ul>
+
+    <div class="menu-title">DETECTION MODULES</div>
+
+    <ul class="menu">
+      <li>
+        <i class="fa-solid fa-hard-hat"></i>
+        Helmet Detection
+      </li>
+
+      <li>
+        <i class="fa-solid fa-user-check"></i>
+        Vest Detection
+      </li>
+
+      <li>
+        <i class="fa-solid fa-border-all"></i>
+        Restricted Areas
+      </li>
+
+      <li>
+        <i class="fa-solid fa-door-open"></i>
+        Gate Monitoring
+      </li>
+    </ul>
+
+    <!-- User -->
+    <div class="user-box">
+      <img src="https://i.pravatar.cc/100" alt="">
+      <div>
+        <h4>Marcus Henderson</h4>
+        <p>Floor Supervisor</p>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Topbar -->
+    <header class="topbar">
+
+      <div>
+        <h2>Safety Command Center</h2>
+      </div>
+
+      <div class="top-right">
+
+        <i class="fa-regular fa-bell"></i>
+
+        <div class="date-box">
+          <h4>Monday, Oct 24</h4>
+          <p>Shift B: 08:00 - 16:00</p>
+        </div>
+
+        <img src="https://i.pravatar.cc/150?img=12" alt="">
+      </div>
+
+    </header>
+
+    <!-- Dashboard -->
+    <section class="dashboard">
+
+      <div class="title">
+        <h1>Overview Dashboard</h1>
+        <p>Real-time workplace safety metrics and AI detection summary.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+
+        <div class="card">
+          <i class="fa-solid fa-triangle-exclamation red"></i>
+          <h2>02</h2>
+          <h4>Daily Accidents</h4>
+          <p>Total recorded safety incidents today</p>
+        </div>
+
+        <div class="card">
+          <i class="fa-solid fa-users blue"></i>
+          <h2>94.8%</h2>
+          <h4>Compliance Rate</h4>
+          <p>Overall percentage of safety protocol adherence</p>
+        </div>
+
+        <div class="card">
+          <i class="fa-solid fa-clock orange"></i>
+          <h2>12</h2>
+          <h4>Active Violations</h4>
+          <p>Current unresolved safety detections</p>
+        </div>
+
+      </div>
+
+      <!-- Content -->
+      <div class="content-grid">
+
+        <!-- Alerts -->
+        <div class="alerts-box">
+
+          <div class="section-header">
+            <div>
+              <h2>Real-time Safety Alerts</h2>
+              <p>Live feed from AI surveillance cameras</p>
+            </div>
+
+            <div class="buttons">
+              <button>View History</button>
+              <button>Clear All</button>
+            </div>
+          </div>
+
+          <!-- Alert -->
+          <div class="alert-item">
+
+            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=500&auto=format&fit=crop" alt="">
+
+            <div class="alert-info">
+              <span class="critical">Critical</span>
+              <h3>Zone B - Chemicals</h3>
+              <p>Unauthorized personnel detected in high-risk zone.</p>
+            </div>
+
+            <button class="handled-btn">Mark Handled</button>
+
+          </div>
+
+          <div class="alert-item">
+
+            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=500&auto=format&fit=crop" alt="">
+
+            <div class="alert-info">
+              <span class="warning">Warning</span>
+              <h3>Production Line 4</h3>
+              <p>Supervisor detected without safety helmet.</p>
+            </div>
+
+            <button class="handled-btn">Mark Handled</button>
+
+          </div>
+
+        </div>
+
+        <!-- Quick Access -->
+        <div class="quick-box">
+
+          <h2>Quick Access Modules</h2>
+
+          <div class="quick-card">
+            <i class="fa-solid fa-hard-hat"></i>
+            <div>
+              <h4>Helmet Detection</h4>
+              <p>AI scan for mandatory headgear</p>
+            </div>
+          </div>
+
+          <div class="quick-card">
+            <i class="fa-solid fa-user-check"></i>
+            <div>
+              <h4>Vest Detection</h4>
+              <p>Hi-visibility vest monitoring</p>
+            </div>
+          </div>
+
+          <div class="quick-card">
+            <i class="fa-solid fa-door-open"></i>
+            <div>
+              <h4>Gate Monitoring</h4>
+              <p>Unauthorized entry management</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Area Status -->
+      <div class="area-status">
+
+        <h2>Facility Area Status</h2>
+
+        <div class="status-grid">
+
+          <div class="status-card">
+            <h3>ASSEMBLY FLOOR</h3>
+            <h1>98%</h1>
+            <p>Compliance</p>
+          </div>
+
+          <div class="status-card">
+            <h3>WAREHOUSE A</h3>
+            <h1>95%</h1>
+            <p>Compliance</p>
+          </div>
+
+          <div class="status-card">
+            <h3>LOADING DOCK</h3>
+            <h1>92%</h1>
+            <p>Compliance</p>
+          </div>
+
+          <div class="status-card danger">
+            <h3>CHEMICAL STORAGE</h3>
+            <h1>45%</h1>
+            <p>Compliance</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+
+</body>
+</html>

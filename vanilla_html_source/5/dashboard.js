@@ -1,0 +1,1 @@
+console.log("Industrial Safety Dashboard Loaded Successfully");

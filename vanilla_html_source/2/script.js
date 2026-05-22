@@ -1,0 +1,1 @@
+console.log("Safety Supervisor Dashboard Loaded");

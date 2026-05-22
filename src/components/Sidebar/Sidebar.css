@@ -1,0 +1,134 @@
+.sidebar {
+  width: 260px;
+  background: #ffffff;
+  min-height: 100vh;
+  border-right: 1px solid #e2e8f0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar .sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  color: #1e88ff;
+}
+
+.sidebar .sidebar-logo i {
+  font-size: 26px;
+}
+
+.sidebar .sidebar-logo h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e88ff;
+}
+
+.sidebar .menu-title {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 24px 0 10px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+.sidebar .menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar .menu li {
+  margin-bottom: 4px;
+}
+
+.sidebar .menu a {
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: #64748b;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.sidebar .menu a:hover {
+  background: #f0f4ff;
+  color: #1e88ff;
+}
+
+.sidebar .menu a.active {
+  background: linear-gradient(135deg, #1e88ff, #1a6fdb);
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(30, 136, 255, 0.3);
+}
+
+.sidebar .menu a i {
+  width: 20px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.sidebar .sidebar-user-box {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.sidebar .sidebar-user-box:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.sidebar .sidebar-user-box img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
+
+.sidebar .sidebar-user-box .user-details h4 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.sidebar .sidebar-user-box .user-details p {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 2px 0 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 220px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Industrial Safety Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div>
+
+      <!-- Logo -->
+      <div class="sidebar-logo">
+
+        <div class="logo-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <h2>Industrial Safety Supervisor</h2>
+
+      </div>
+
+      <!-- Menu -->
+      <ul class="menu">
+
+        <li class="active">
+          <i class="fa-solid fa-table-columns"></i>
+          Dashboard
+        </li>
+
+        <li>
+          <i class="fa-regular fa-map"></i>
+          Factory Map
+        </li>
+
+        <li>
+          <i class="fa-solid fa-door-open"></i>
+          Gate Monitoring
+        </li>
+
+        <li>
+          <i class="fa-regular fa-clipboard"></i>
+          Reports
+        </li>
+
+        <li>
+          <i class="fa-solid fa-gear"></i>
+          Settings
+        </li>
+
+      </ul>
+
+    </div>
+
+    <!-- User -->
+    <div class="user-box">
+
+      <img
+        src="https://i.pravatar.cc/100?img=12"
+        alt=""
+      >
+
+      <div>
+        <h4>Robert Chen</h4>
+        <p>Senior Supervisor</p>
+      </div>
+
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+
+    </div>
+
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <!-- Topbar -->
+    <div class="topbar">
+
+      <div>
+        <h1>Gate Monitoring</h1>
+      </div>
+
+      <div class="top-icons">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-regular fa-bell"></i>
+
+      </div>
+
+    </div>
+
+    <!-- Search -->
+    <div class="search-row">
+
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+          type="text"
+          placeholder="Search by Employee ID, Name or Gate..."
+        >
+      </div>
+
+      <div class="actions">
+
+        <button>
+          <i class="fa-solid fa-filter"></i>
+          Filter
+        </button>
+
+        <button>
+          <i class="fa-solid fa-download"></i>
+          Export
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Overview -->
+    <section class="overview">
+
+      <div class="section-header">
+        <h2>
+          <i class="fa-regular fa-shield"></i>
+          Real-time Overview
+        </h2>
+
+        <span>Live Feed Active</span>
+      </div>
+
+      <!-- Cards -->
+      <div class="cards">
+
+        <div class="card">
+
+          <div class="card-top">
+            <div class="card-icon">
+              <i class="fa-solid fa-building"></i>
+            </div>
+
+            <small>+12% today</small>
+          </div>
+
+          <p>Total Entries</p>
+          <h3>1,482</h3>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-top">
+            <div class="card-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <small class="red">+3 new alerts</small>
+          </div>
+
+          <p>Unauthorized</p>
+          <h3>42</h3>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-top">
+            <div class="card-icon">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+
+            <small>+0.4% avg</small>
+          </div>
+
+          <p>Badge Verified</p>
+          <h3>98.2%</h3>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-top">
+            <div class="card-icon">
+              <i class="fa-regular fa-circle-check"></i>
+            </div>
+
+            <small>All Operational</small>
+          </div>
+
+          <p>Active Gates</p>
+          <h3>12 / 12</h3>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Content -->
+    <section class="content-grid">
+
+      <!-- Left -->
+      <div>
+
+        <div class="content-header">
+          <h3>
+            <span class="dot"></span>
+            Unauthorized Access
+          </h3>
+
+          <a href="#">View All</a>
+        </div>
+
+        <!-- Alert Card -->
+        <div class="alert-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop"
+            alt=""
+          >
+
+          <div class="alert-info">
+
+            <div class="alert-top">
+              <span class="badge red-badge">Alert</span>
+              <small>14:22:15</small>
+            </div>
+
+            <h4>North Gate - Sector A</h4>
+            <p>Unknown Subject</p>
+
+            <small class="desc">
+              Tailgating attempt detected by AI
+            </small>
+
+          </div>
+
+          <button class="danger-btn">
+            Handle Alert
+          </button>
+
+        </div>
+
+        <!-- Alert Card -->
+        <div class="alert-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=800&auto=format&fit=crop"
+            alt=""
+          >
+
+          <div class="alert-info">
+
+            <div class="alert-top">
+              <span class="badge orange-badge">Flagged</span>
+              <small>14:15:30</small>
+            </div>
+
+            <h4>Warehouse Dock 4</h4>
+            <p>Non-Personnel</p>
+
+            <small class="desc">
+              Restricted access hours violation
+            </small>
+
+          </div>
+
+          <button class="danger-btn">
+            Handle Alert
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Right -->
+      <div>
+
+        <div class="content-header">
+          <h3>
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Recent Activity Log
+          </h3>
+
+          <small>Sorted by: Newest first</small>
+        </div>
+
+        <!-- Activity -->
+        <div class="activity-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&auto=format&fit=crop"
+            alt=""
+          >
+
+          <div class="activity-info">
+
+            <div class="alert-top">
+              <span class="badge red-badge">Alert</span>
+              <small>14:22:15</small>
+            </div>
+
+            <h4>North Gate - Sector A</h4>
+            <p>Unknown Subject</p>
+
+            <small class="desc">
+              Tailgating attempt detected by AI
+            </small>
+
+          </div>
+
+          <button class="danger-btn">
+            Handle Alert
+          </button>
+
+        </div>
+
+        <!-- Activity -->
+        <div class="activity-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop"
+            alt=""
+          >
+
+          <div class="activity-info">
+
+            <div class="alert-top">
+              <span class="badge verified">Verified</span>
+              <small>14:20:05</small>
+            </div>
+
+            <h4>Main Entrance</h4>
+            <p>Sarah Jenkins (ID-8821)</p>
+
+            <small class="desc">
+              Badge ID Verified
+            </small>
+
+          </div>
+
+          <div class="verified-text">
+            <i class="fa-regular fa-circle-check"></i>
+            Verified
+          </div>
+
+        </div>
+
+        <!-- Activity -->
+        <div class="activity-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1497366412874-3415097a27e7?q=80&w=800&auto=format&fit=crop"
+            alt=""
+          >
+
+          <div class="activity-info">
+
+            <div class="alert-top">
+              <span class="badge orange-badge">Flagged</span>
+              <small>14:15:30</small>
+            </div>
+
+            <h4>Warehouse Dock 4</h4>
+            <p>Non-Personnel</p>
+
+            <small class="desc">
+              Restricted access hours violation
+            </small>
+
+          </div>
+
+          <button class="danger-btn">
+            Handle Alert
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

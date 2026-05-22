@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Safety - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Industrial Safety</span>
+            </div>
+            <nav>
+                <div class="nav-section">MAIN MENU</div>
+                <ul>
+                    <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li class="active"><a href="#"><i class="fas fa-file-alt"></i> Safety Reports</a></li>
+                    <li><a href="#"><i class="fas fa-map"></i> Factory Map</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> Live Monitoring</a></li>
+                </ul>
+                <div class="nav-section">SYSTEM</div>
+                <ul>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=random" alt="User">
+                <div class="user-info">
+                    <span class="name">Sarah Jenkins</span>
+                    <span class="role">Senior Supervisor</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <h1>Safety Analytics & Reports</h1>
+                <div class="header-actions">
+                    <div class="view-toggle">
+                        <button class="active">Daily View</button>
+                        <button>Weekly Summary</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-outline"><i class="fas fa-download"></i> Export PDF</button>
+                        <button class="btn-primary"><i class="fas fa-plus"></i> Generate Custom</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <span class="label">Avg Compliance</span>
+                        <span class="value">94.2%</span>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +2.4% <small>vs last week</small></span>
+                    </div>
+                    <div class="stat-icon blue"><i class="fas fa-chart-line"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <span class="label">Active Incidents</span>
+                        <span class="value">04</span>
+                        <span class="trend down"><i class="fas fa-arrow-down"></i> -12% <small>vs last week</small></span>
+                    </div>
+                    <div class="stat-icon red"><i class="fas fa-exclamation-circle"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <span class="label">Hazard Areas</span>
+                        <span class="value">02</span>
+                        <span class="trend neutral">No Change <small>vs last week</small></span>
+                    </div>
+                    <div class="stat-icon yellow"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <span class="label">Total Inspections</span>
+                        <span class="value">1,248</span>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> +8.1% <small>vs last week</small></span>
+                    </div>
+                    <div class="stat-icon dark"><i class="fas fa-clipboard-check"></i></div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-grid">
+                <div class="chart-container main-chart">
+                    <div class="chart-header">
+                        <h3>Safety Performance Trend</h3>
+                        <span class="chart-subtitle">Visualizing compliance rates vs. total detected incidents</span>
+                        <span class="timeframe">Last 7 Days</span>
+                    </div>
+                    <canvas id="performanceChart"></canvas>
+                </div>
+                <div class="chart-container side-chart">
+                    <div class="chart-header">
+                        <h3>Violations by Department</h3>
+                        <span class="chart-subtitle">Top hazard zones requiring supervisor focus</span>
+                    </div>
+                    <canvas id="violationsChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Bottom Section -->
+            <section class="bottom-grid">
+                <div class="incident-log">
+                    <div class="section-header">
+                        <h3>Critical Incident Log</h3>
+                        <a href="#" class="view-all">View All Logs</a>
+                    </div>
+                    <p class="subtitle">High-severity visual evidence captured by AI cameras</p>
+                    
+                    <div class="log-items">
+                        <div class="log-item">
+                            <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=100&h=100&fit=crop" alt="Incident">
+                            <div class="log-details">
+                                <h4>No Helmet</h4>
+                                <span><i class="fas fa-map-marker-alt"></i> Loading Dock 4</span>
+                                <span><i class="far fa-clock"></i> 14:20 PM</span>
+                            </div>
+                            <div class="log-status">
+                                <span class="badge high">High</span>
+                                <button class="btn-action">Handle Now</button>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <img src="https://images.unsplash.com/photo-1558441138-5d1264381a89?w=100&h=100&fit=crop" alt="Incident">
+                            <div class="log-details">
+                                <h4>Restricted Entry</h4>
+                                <span><i class="fas fa-map-marker-alt"></i> Server Room</span>
+                                <span><i class="far fa-clock"></i> 11:05 AM</span>
+                            </div>
+                            <div class="log-status">
+                                <span class="badge critical">Critical</span>
+                                <button class="btn-link">View Logs</button>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ecb?w=100&h=100&fit=crop" alt="Incident">
+                            <div class="log-details">
+                                <h4>No Vest</h4>
+                                <span><i class="fas fa-map-marker-alt"></i> Assembly Line B</span>
+                                <span><i class="far fa-clock"></i> 09:45 AM</span>
+                            </div>
+                            <div class="log-status">
+                                <span class="badge medium">Medium</span>
+                                <button class="btn-link">View Logs</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <div class="distribution-card">
+                        <h3>Safety Distribution</h3>
+                        <p class="subtitle">Internal compliance score distribution</p>
+                        <div class="progress-group">
+                            <div class="progress-label"><span>PPE Compliance</span> <span>98.2%</span></div>
+                            <div class="progress-bar"><div class="progress" style="width: 98.2%"></div></div>
+                        </div>
+                        <div class="progress-group">
+                            <div class="progress-label"><span>Restricted Access</span> <span>82.5%</span></div>
+                            <div class="progress-bar"><div class="progress" style="width: 82.5%"></div></div>
+                        </div>
+                        <div class="progress-group">
+                            <div class="progress-label"><span>Gate Security</span> <span>91.0%</span></div>
+                            <div class="progress-bar"><div class="progress" style="width: 91.0%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="quick-export">
+                        <h3>QUICK EXPORT</h3>
+                        <div class="export-buttons">
+                            <button><i class="fas fa-file-pdf"></i> PDF Report</button>
+                            <button><i class="fas fa-file-excel"></i> Excel Data</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <span>© 2024 Industrial Safety Supervisor. All systems operational.</span>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Safety Standards</a>
+                    <a href="#">Help Center</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

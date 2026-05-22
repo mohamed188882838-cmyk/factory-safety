@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Helmet Detection Review</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i>
+      <h2>Safety Supervisor</h2>
+    </div>
+
+    <div class="menu-title">AI MONITORING</div>
+
+    <ul class="menu">
+
+      <li>
+        <i class="fa-solid fa-table-columns"></i>
+        Dashboard
+      </li>
+
+      <li class="active">
+        <i class="fa-solid fa-hard-hat"></i>
+        Helmet Detection
+      </li>
+
+      <li>
+        <i class="fa-solid fa-user-check"></i>
+        Vest Detection
+      </li>
+
+      <li>
+        <i class="fa-solid fa-border-all"></i>
+        Restricted Areas
+      </li>
+
+    </ul>
+
+    <div class="menu-title">SYSTEM</div>
+
+    <ul class="menu">
+
+      <li>
+        <i class="fa-regular fa-clipboard"></i>
+        Safety Reports
+      </li>
+
+      <li>
+        <i class="fa-solid fa-gear"></i>
+        Settings
+      </li>
+
+    </ul>
+
+    <div class="user-box">
+
+      <img src="https://i.pravatar.cc/100?img=12">
+
+      <div>
+        <h4>Marcus Vane</h4>
+        <p>Plant Supervisor</p>
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- Main -->
+
+  <main class="main">
+
+    <!-- Top -->
+
+    <header class="topbar">
+
+      <h2>Helmet Detection Review</h2>
+
+      <div class="top-actions">
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search by ID or Location...">
+        </div>
+
+        <button>
+          <i class="fa-solid fa-download"></i>
+          Export Data
+        </button>
+
+        <button class="blue-btn">
+          <i class="fa-solid fa-bell"></i>
+          Alert Team
+        </button>
+
+      </div>
+
+    </header>
+
+    <!-- Stats -->
+
+    <section class="stats-grid">
+
+      <div class="stat-card">
+        <h4>Total Violations Today</h4>
+        <h1>24</h1>
+        <p class="red">+12% from yesterday</p>
+      </div>
+
+      <div class="stat-card">
+        <h4>Active Unhandled</h4>
+        <h1>8</h1>
+        <p>-4 from yesterday</p>
+      </div>
+
+      <div class="stat-card">
+        <h4>Compliance Rate</h4>
+        <h1>94.2%</h1>
+        <p>+2.1% from yesterday</p>
+      </div>
+
+      <div class="stat-card">
+        <h4>Most Problematic Area</h4>
+        <h1>Loading Dock B</h1>
+        <p>Unchanged from yesterday</p>
+      </div>
+
+    </section>
+
+    <!-- Filters -->
+
+    <section class="filters">
+
+      <button>All Shifts</button>
+      <button>Status: New</button>
+      <button>Department: Production</button>
+
+    </section>
+
+    <!-- Incidents -->
+
+    <section class="cards-grid">
+
+      <!-- Card -->
+
+      <div class="incident-card violation">
+
+        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1000&auto=format&fit=crop">
+
+        <div class="incident-content">
+
+          <div class="badge red-badge">Violation Detected</div>
+
+          <h3>Incident #7821</h3>
+
+          <p>Production Department</p>
+
+          <div class="info-row">
+            <span>Assembly Line 4</span>
+            <span>10:24 AM</span>
+          </div>
+
+          <button class="mark-btn">
+            Mark as Handled
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Card -->
+
+      <div class="incident-card violation">
+
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop">
+
+        <div class="incident-content">
+
+          <div class="badge red-badge">Violation Detected</div>
+
+          <h3>Incident #7819</h3>
+
+          <p>Logistics Department</p>
+
+          <div class="info-row">
+            <span>Loading Dock B</span>
+            <span>09:45 AM</span>
+          </div>
+
+          <button class="mark-btn">
+            Mark as Handled
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Card -->
+
+      <div class="incident-card">
+
+        <img src="https://images.unsplash.com/photo-1581092921461-eab10380bee1?q=80&w=1000&auto=format&fit=crop">
+
+        <div class="incident-content">
+
+          <div class="badge gray-badge">Handled</div>
+
+          <h3>Incident #7815</h3>
+
+          <p>Maintenance Department</p>
+
+          <div class="info-row">
+            <span>Maintenance Bay 2</span>
+            <span>08:12 AM</span>
+          </div>
+
+          <button class="disabled-btn">
+            Resolved by Supervisor
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+<script src="script.js"></script>
+
+</body>
+</html>

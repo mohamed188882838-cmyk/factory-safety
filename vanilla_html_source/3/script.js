@@ -1,0 +1,1 @@
+console.log("Helmet Detection Loaded");
